@@ -8,13 +8,15 @@ volumes:
   prometheus_data: {}
 
 services:
-  node_exporter:
+  node:
     image: quay.io/prometheus/node-exporter:latest
     container_name: node_exporter
     command:
       - '--path.rootfs=/host'
     networks:
         - monitoring
+    ports:
+      - "9100:9100"
     pid: host
     restart: unless-stopped
     volumes:
@@ -39,6 +41,8 @@ services:
       - monitoring
   grafana:
     image: grafana/grafana:latest
+    networks:
+      - monitoring
     ports:
       - "3000:3000"
     user: '104'

@@ -1,5 +1,5 @@
 global:
-  scrape_interval: 1m
+  scrape_interval: 30s
 
 scrape_configs:
   - job_name: "prometheus"
@@ -9,10 +9,10 @@ scrape_configs:
 
   - job_name: "node"
     static_configs:
-    - targets: ["node-exporter:9100"]
+    - targets: ["node:9100"]
 
-remote_write:
-  - url: "/test"
-    basic_auth:
-      username: "admin"
-      password: "test"
+#remote_write:
+#  - url: "/test"
+#    basic_auth:
+#      username: "admin"
+#      password: "test"
