@@ -1,0 +1,12 @@
+{
+    "configurations": [
+        {
+            "type": "go",
+            "name": "run",
+            "goExecPath": "/usr/local/go/bin/go",
+            "buildParams": ["$PROJECT_DIR$/main.go"],
+            "runParams": ["-interval", "10s"],
+        },
+
+    ]
+}
