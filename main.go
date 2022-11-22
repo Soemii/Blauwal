@@ -37,7 +37,7 @@ func main() {
         Name        string
         Help        string
         ConstLabels prometheus.Labels
-    }{Namespace: "", Subsystem: "", Name: "celius", Help: "", ConstLabels: nil})
+    }{Namespace: "", Subsystem: "", Name: "celsius", Help: "", ConstLabels: nil})
 
     file := findFile()
 
@@ -51,10 +51,16 @@ func main() {
 }
 
 func readData(file string) (float64,float64) {
-    lines := readRawData(file)
-    for line := lines[0]; !strings.HasSuffix(line, "YES"); {
+    lines := make([]string, 0)
+    for {
         time.Sleep(time.Millisecond*200)
         lines = readRawData(file)
+        if len(lines) < 2 {
+            continue
+        }
+        if line := lines[0]; strings.HasSuffix(line, "YES") {
+            break
+        }
     }
     tempLine := lines[1]
     tempIndex := strings.IndexRune(tempLine, '=')
@@ -71,6 +77,7 @@ func readData(file string) (float64,float64) {
 
 func readRawData(path string) []string {
     file, err := os.Open(path)
+
     if err != nil {
         log.Panic(err)
         return nil
