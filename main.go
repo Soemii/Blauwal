@@ -64,7 +64,7 @@ func readData(file *os.File) (float64,float64) {
         log.Println(err)
         return 0, 0
     }
-    tempCelsius := float64(atoi)
+    tempCelsius := float64(atoi) / 1000
     tempKelvin := tempCelsius - 273.15
     return tempCelsius, tempKelvin
 }
