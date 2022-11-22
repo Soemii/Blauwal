@@ -57,7 +57,7 @@ func readData(file *os.File) (float64,float64) {
         lines = readRawData(file)
     }
     tempLine := lines[1]
-    tempIndex := strings.IndexRune(tempLine, '=')
+    tempIndex := strings.IndexRune(tempLine, '=') + 1
     tempString := tempLine[tempIndex:]
     atoi, err := strconv.Atoi(tempString)
     if err != nil {
@@ -94,7 +94,6 @@ func findFile() *os.File {
         s = strings.Replace(s, PATH, "", 1)
         return strings.HasPrefix(s, "28")
     })
-    log.Println(files)
     if len(files) < 1 {
         log.Panic("Cannot find File")
     }
