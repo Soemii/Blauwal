@@ -16,7 +16,7 @@ import (
 import "github.com/prometheus/client_golang/prometheus/promhttp"
 import "github.com/prometheus/client_golang/prometheus/promauto"
 
-const PATH = "/sys/bus/w1/devices"
+const PATH = "/sys/bus/w1/devices/"
 
 func main() {
     dur := flag.Duration("interval", time.Second*5, "")
@@ -90,9 +90,11 @@ func recordMetrics(duration *time.Duration, kelvin prometheus.Gauge, celsius pro
 
 func findFile() *os.File {
     files := glob(PATH, func(s string) bool {
-        log.Printf("Direcotory %v in %v", s, PATH)
+        log.Printf("Directory %v in %v", s, PATH)
+        s = strings.Replace(s, PATH, "", 1)
         return strings.HasPrefix(s, "28")
     })
+    log.Println(files)
     if len(files) < 1 {
         log.Panic("Cannot find File")
     }
