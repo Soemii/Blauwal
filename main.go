@@ -50,7 +50,7 @@ func main() {
     }
 }
 
-func readData(file *os.File) (float64,float64) {
+func readData(file string) (float64,float64) {
     lines := readRawData(file)
     for line := lines[0]; !strings.HasSuffix(line, "YES"); {
         time.Sleep(time.Millisecond*200)
@@ -69,7 +69,12 @@ func readData(file *os.File) (float64,float64) {
     return tempCelsius, tempKelvin
 }
 
-func readRawData(file *os.File) []string {
+func readRawData(path string) []string {
+    file, err := os.Open(path)
+    if err != nil {
+        log.Panic(err)
+        return nil
+    }
     all, err := io.ReadAll(file)
     if err != nil {
         log.Println(err)
@@ -79,9 +84,10 @@ func readRawData(file *os.File) []string {
     return strings.Split(string(all), "\n")
 }
 
-func recordMetrics(duration *time.Duration, kelvin prometheus.Gauge, celsius prometheus.Gauge, file *os.File){
+func recordMetrics(duration *time.Duration, kelvin prometheus.Gauge, celsius prometheus.Gauge, path string){
     for {
         log.Println("Try to Read")
+        data := readRawData(path)
         cel, kel := readData(file)
         log.Printf("Celsius: %v | Kelvin: %v", cel, kel)
         celsius.Set(cel)
@@ -90,7 +96,7 @@ func recordMetrics(duration *time.Duration, kelvin prometheus.Gauge, celsius pro
     }
 }
 
-func findFile() *os.File {
+func findFile() string {
     files := glob(PATH, func(s string) bool {
         log.Printf("Directory %v in %v", s, PATH)
         s = strings.Replace(s, PATH, "", 1)
@@ -100,12 +106,7 @@ func findFile() *os.File {
         log.Panic("Cannot find File")
     }
     path := files[0] + "/w1_slave"
-    open, err := os.Open(path)
-    if err != nil {
-        log.Panic(err)
-        return nil
-    }
-    return open
+    return path
 }
 
 func glob(root string, fn func(string)bool) []string {
