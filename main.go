@@ -53,7 +53,7 @@ func main() {
 func readData(file *os.File) (float64,float64) {
     lines := readRawData(file)
     for line := lines[0]; !strings.HasSuffix(line, "YES"); {
-        time.Sleep(time.Millisecond*2)
+        time.Sleep(time.Millisecond*200)
         lines = readRawData(file)
     }
     tempLine := lines[1]
@@ -75,6 +75,7 @@ func readRawData(file *os.File) []string {
         log.Println(err)
         return make([]string, 0)
     }
+    log.Printf("Read Data: %v", string(all))
     return strings.Split(string(all), "\n")
 }
 
