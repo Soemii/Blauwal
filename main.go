@@ -57,8 +57,8 @@ func readData(file *os.File) (float64,float64) {
         lines = readRawData(file)
     }
     tempLine := lines[1]
-    tempIndex := strings.IndexRune(tempLine, '=') + 1
-    tempString := tempLine[tempIndex:]
+    tempIndex := strings.IndexRune(tempLine, '=')
+    tempString := tempLine[tempIndex + 1:]
     atoi, err := strconv.Atoi(tempString)
     if err != nil {
         log.Println(err)
