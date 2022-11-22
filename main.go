@@ -87,8 +87,7 @@ func readRawData(path string) []string {
 func recordMetrics(duration *time.Duration, kelvin prometheus.Gauge, celsius prometheus.Gauge, path string){
     for {
         log.Println("Try to Read")
-        data := readRawData(path)
-        cel, kel := readData(file)
+        cel, kel := readData(path)
         log.Printf("Celsius: %v | Kelvin: %v", cel, kel)
         celsius.Set(cel)
         kelvin.Set(kel)
