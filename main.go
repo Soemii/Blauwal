@@ -90,6 +90,7 @@ func recordMetrics(duration *time.Duration, kelvin prometheus.Gauge, celsius pro
 
 func findFile() *os.File {
     files := glob(PATH, func(s string) bool {
+        log.Printf("Direcotory %v in %v", s, PATH)
         return strings.HasPrefix(s, "28")
     })
     if len(files) < 1 {
