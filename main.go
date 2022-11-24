@@ -66,7 +66,7 @@ func readData(file string) (float64,float64) {
     //convert to celsius
     tempCelsius := float64(atoi) / 1000
     //convert celsius to kelvin
-    tempKelvin := tempCelsius - 273.15
+    tempKelvin := tempCelsius + 273.15
     return tempCelsius, tempKelvin
 }
 
